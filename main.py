@@ -195,23 +195,22 @@ import os
 ########################
 
 def keys_to_output(keys):
-    '''
-    Convert keys to a ...multi-hot... array
+    # [A, W, D, S]
+    output=[0,0,0,0]
 
-    [A,W,D] boolean values.
-    '''
-    output = [0,0,0]
-    
     if 'A' in keys:
-        output[0] = 1
+        output[0]=1
+    elif 'W' in keys:
+        output[1]=1
     elif 'D' in keys:
-        output[2] = 1
-    else:
-        output[1] = 1
+        output[2]=1
+    elif 'S' in keys:
+        output[3]=1
+       
     return output
 
 
-file_name = 'training_data.npy'
+file_name = 'training_data_1.npy'
 
 if os.path.isfile(file_name):
     print('File exists, loading previous data!')
@@ -223,6 +222,7 @@ else:
 
 def main():
 
+
     for i in list(range(4))[::-1]:
         print(i+1)
         time.sleep(1)
@@ -233,20 +233,20 @@ def main():
 
         if not paused:
             # 800x600 windowed mode
-            screen = grab_screen(region=(0,40,800,640))
+            screen = grab_screen(region=(0,45,800,650))
             last_time = time.time()
             screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
-            screen = cv2.resize(screen, (160,120))
+            screen = cv2.resize(screen, (80,60)) #(60, 80) [[159 119 239 ... 132 239 239]...]
             # resize to something a bit more acceptable for a CNN
             keys = key_check()
-            output = np.array(keys_to_output(keys), dtype=object)
-            training_data.append([screen,output])
+            output = np.array(keys_to_output(keys), dtype=object) #output=[0,0,0,0]
+            training_data.append([screen,output]) #[[array([[159, 119, 239, ..., 239, 222, 239]...],array([0, 0, 0, 1])
             print('Frame took {} seconds'.format(time.time()-last_time))
             
             if len(training_data) % 50 == 0:
                 print(len(training_data))
                 np.save(file_name,training_data)
-print(np.__version__)
+
 
 
 main()
