@@ -4,19 +4,17 @@ from tf_models import alexnet, inception_v3, sentnet_color
 import cv2
 import os
 import tflearn
-
-# WIDTH=160
-# HEIGHT=120
-
+import pandas as pd
+from collections import Counter
 
 WIDTH = 480
 HEIGHT = 270
-EPOCHS = 2 #######30
+EPOCHS = 30
 lr=1e-3
 OUPUT=3
 MODEL_NAME = ''
 frame_count=3
-FILE_I_END = 16
+FILE_I_END = 16 ### +1
 
 model=inception_v3(WIDTH, HEIGHT, frame_count, lr, output=OUPUT, model_name=MODEL_NAME)
 
@@ -28,23 +26,35 @@ for e in range(EPOCHS):
         
         try:
             
-            file_name='training_data-{}-{}-{}.npy'.format(i, WIDTH, HEIGHT)
+            # file_name='training_data/training_data_{}_{}.npy'.format(WIDTH, HEIGHT)
+            file_name='training_data/training_data-{}-{}-{}.npy'.format(i,WIDTH, HEIGHT)
+            
             if os.path.isfile(file_name):
-                # print('File exists')
                 train_data=np.load(file_name,allow_pickle=True)# [   [    [FRAMES], CHOICE   ]    ]
+                # print('File exists')
                 # print('training_data-{}.npy'.format(i), len(train_data))
+
+                #modify train data
+                train_data = [[item[0], item[1][:3]] for item in train_data]
+
             else:
                 # print('File does not exist')
                 break
 
+
+
+
             np.random.shuffle(train_data)
 
-            train, test=train_data[:-80,:], train_data[-80:,:]
-           
+            # train, test=train_data[:-80,:], train_data[-80:,:]
+            train = train_data[:-50]
+            test = train_data[-50:]
+
             X = np.array([i[0] for i in train]).reshape(-1,WIDTH,HEIGHT,3) 
             Y = [i[1] for i in train]
             test_x = np.array([i[0] for i in test]).reshape(-1,WIDTH,HEIGHT,3)
-            test_y = [i[1] for i in test]       
+            test_y = [i[1] for i in test]      
+
 
             try:
 

@@ -11,28 +11,31 @@ import os
 WIDTH=480
 HEIGHT=270
 
-def keys_to_output(keys):
-    output = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    key_to_index = {'A': 0, 'W': 1, 'D': 2, 'S': 3, 'WA': 4, 'WD': 5, 'SA': 6, 'SD': 7, 'slow_accel': 8}
+def keys_to_output(*args):
+    output = [0, 0, 0, 0]
+    key_to_index = {'A': 0, 'W': 1, 'D': 2, 'S' : 3}
     
-    # If keys is a list, process each key
-    if isinstance(keys, list):
-        for key in keys:
-            if key in key_to_index:
-                output[key_to_index[key]] = 1
-    # If keys is a single key string, process it directly
-    elif isinstance(keys, str):
-        if keys in key_to_index:
-            output[key_to_index[keys]] = 1
-    
+    # Flatten args if a single list is passed
+    if len(args) == 1 and isinstance(args[0], list):
+        keys = args[0]
+    else:
+        keys = args
+
+    for key in keys:
+        if key in key_to_index:
+            output[key_to_index[key]] = 1
+
     return output
+
+
+
 
 starting_value=1
 while True:
-    file_name='training_data/training_data-{}-{}-{}.npy'.format(starting_value,WIDTH, HEIGHT)
+    file_name='city_training_data/training_data-{}-{}-{}.npy'.format(starting_value,WIDTH, HEIGHT)
     if os.path.isfile(file_name):
         print('File exists')
-        print(file_name)
+        # print(file_name)
         starting_value+=1
     else:
         print('File does not exist')
@@ -62,8 +65,8 @@ def main(file_name, starting_value):
 
         if not paused:
             # 800x600 windowed mode
-            screen = grab_screen(region=(0,45,800,600))
-            # screen = grab_screen(region=(0,45,1920,1120))
+            # screen = grab_screen(region=(0,45,800,600))
+            screen = grab_screen(region=(0,45,1920,1120))
 
             last_time = time.time()
             screen = cv2.resize(screen, (WIDTH,HEIGHT))
@@ -88,7 +91,7 @@ def main(file_name, starting_value):
                     print('saved', starting_value)
                     training_data=[]
                     starting_value+=1
-                    file_name='training_data/training_data-{}-{}-{}.npy'.format(starting_value,WIDTH, HEIGHT)
+                    file_name='city_training_data/training_data-{}-{}-{}.npy'.format(starting_value,WIDTH, HEIGHT)
                     
         keys = key_check()
         if 'T' in keys:

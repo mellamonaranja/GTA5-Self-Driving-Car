@@ -4,7 +4,6 @@ import cv2
 import time
 from numpy import ones,vstack
 from numpy.linalg import lstsq
-from directkeys import PressKey, W, A, S, D
 from statistics import mean
 from directkeys import ReleaseKey, PressKey, W, A, S, D
 
