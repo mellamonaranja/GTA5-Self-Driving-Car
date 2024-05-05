@@ -23,3 +23,7 @@ pip install -r requirements.txt
 
 - `requirements.txt` includes the required dependencies
 - `requirements_f.txt` includes the freeze dependencies after installing
+- If you receive the warning **dlerror: cudart64_110.dll not found** (https://github.com/tensorflow/tensorflow/issues/57103), execute the following command
+```
+conda install -c conda-forge cudatoolkit=11.0 cudnn=8.0
+```
