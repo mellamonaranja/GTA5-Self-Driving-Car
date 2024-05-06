@@ -27,3 +27,9 @@ pip install -r requirements.txt
 ```
 conda install -c conda-forge cudatoolkit=11.0 cudnn=8.0
 ```
+- Fix *object_detection* import issue
+https://wikidocs.net/80978
+
+```
+wget https://raw.githubusercontent.com/protocolbuffers/protobuf/main/python/google/protobuf/internal/builder.py -O [YOUR_LOCAL_PATH]/google/protobuf/internal/builder.py
+```
