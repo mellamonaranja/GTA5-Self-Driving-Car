@@ -55,7 +55,7 @@
 1. Download code
 
 ```
-git clone https://github.com/mellamonaranja/ObjectDetection_and_SelfDriving_GTA5.git
+git clone https://github.com/mellamonaranja/SelfDriving_and_ObjectDetection_GTA5.git
 ```
 
 2. Install packages
