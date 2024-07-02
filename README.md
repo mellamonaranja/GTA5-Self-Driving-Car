@@ -66,7 +66,7 @@ pip install -r requirements.txt
 
 ### USAGE EXAMPLE
 
-```
+```python
 if __name__ == "__main__":
 
     for i in list(range(2))[::-1]:
@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
 ### USAGE EXAMPLE
 
-```
+```python
 #Acquiring a Vehicle for the Agent
       #if the agent does not have a vehicle, we want to be able to steal a vehicle : find the vehicle and steal it
       if len(vehicle_dict) > 0:
